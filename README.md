@@ -58,12 +58,18 @@ Once published you should get a public route that looks something like:
 dev-kv-connector.<your org>.workers.dev
 
 This needs to be added as a URL in your .env file with the VITE_ prefix then the name of the store beginning with KV.  In this demo we use a single store called KV so the .env file has:
+````
 VITE_KV=https:dev-kv-connector.<your org>.workers.dev
+````
 If we wanted to reference a store called KVUSERS it we would need
+````
 VITE_KVUSERS=https:<dev-kv-workername>.<your org>.workers.dev
+````
 
 Because your worker is opening a public URL to your development KV store we need to add a shared secret to stop anyone else storing arbitrary values and racking up Cloudflare charges.  You can add this in the .env file as VITE_SECRET eg:
-VITE_SECRET=thisismysecret
+````
+VITE_SECRET=yoursecret
+````
 This needs to be the same value as the wrokers ACCESS_KEY environment variable which you can set in the wrangler.toml file or through the Cloudflare workers dashboard under Settings:Variables
 
 Currently bindings.js assumes you will use the same secret across all stores/durable objects.  You'll need to modify the bindings.js source if that's not the case
@@ -91,11 +97,13 @@ You can find the source to the full DOcrypt durable object at:
 https://gitlab.com/athatch/DOcrypt
 
 Like KV stores you need a reference to the route for the durable oject in your .env file eg:
+````
 VITE_DOCRYPT=https://docrypt-dev.<your org>.workers.dev
+````
 
 For the bindings.js devDO function to work generically with any durable object it expects that the object's fetch request will return a header into the object id.
-For idFromName calls it will pass a idFromName: <name> header in the fetch request.
-For idFromString calls it will a idFromString: <string> header in the fetch request.
+For idFromName calls it will pass a idFromName: [name] header in the fetch request.
+For idFromString calls it will a idFromString: [string] header in the fetch request.
 For newUniqueId calls it will a newUniqueId: true header in the fetch request.
 Your durable object fetch handler must be able to extract the correct header or headers and generate the appropriate id.  Here's the Docrypt handler (which only expects idFromName requests):
 ````
