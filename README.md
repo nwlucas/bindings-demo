@@ -183,6 +183,7 @@ npm run dev
 # It doesn't look like you can easily publish to cloudflare pages from a public repository so to install on cloudflare we'll using wrangler
 npm run build
 cd .svelte-kit
+npx wrangler login
 npx wrangler pages publish ./cloudflare
 # once your site is published navigate to Cloudfare Dashboard:Pages:Project:Settings:Functions and create KV and durable object bindings
 # (it's ok in this case to bind to the same ones you are using in development but normally we'd use separate ones)
