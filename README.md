@@ -147,12 +147,13 @@ Make sure the development durable object has an ACCESS_KEY environment variable 
 # To install DOcrypt durable object
 git clone https://gitlab.com/athatch/DOcrypt.git
 cd DOcrypt
+npm install
 mv example.wrangler.toml wrangler.toml
 # edit the wrangler.toml with your cloudflare settings
 # to publish the production version
 npx wrangler publish
 # to publish the dev version which will give you a route (you can also use this for production for the purposes of this demo )
-npx wrangler publish -e env
+npx wrangler publish -e dev
 # copy the route to put in the .env file of the SvelteKit project clone below.
 
 # If you're installing everything in the same toplevel directory - return to that directory
@@ -164,9 +165,14 @@ cd bindings-demo
 npm install
 
 # To install the dev KV connector
-cd worker/dev-kv-connector
+# First create the KV namespace (with the name KV) in Cloudflare dashboard Workers:KV:Create Namespace
+# Copy the id into workers/dev-kv-connector/wrangler.toml where it says 'your-kv-id-here'
+cd workers/dev-kv-connector
 npx wrangler publish
 # copy the published route
+
+# return to top level directory
+cd ../..
 
 # edit the .env file and change VITE_KV and VITE_DOCRYPT vars to point to the respective routes from above (include https:// at the start)
 
@@ -176,8 +182,10 @@ npm run dev
 
 # It doesn't look like you can easily publish to cloudflare pages from a public repository so to install on cloudflare we'll using wrangler
 npm run build
-npx wrangler pages publish .svelte-kit
+cd .svelte-kit
+npx wrangler pages publish ./cloudflare
 # once your site is published navigate to Cloudfare Dashboard:Pages:Project:Settings:Functions and create KV and durable object bindings
 # (it's ok in this case to bind to the same ones you are using in development but normally we'd use separate ones)
+# Then add the SPECIAL_ENV_VAR environment variable under Cloudfare Dashboard:Pages:Project:Settings:Environment Variables
 #
 # Navigate to your pages site and you should also have a working production version
