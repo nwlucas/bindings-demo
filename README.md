@@ -150,9 +150,9 @@ cd DOcrypt
 mv example.wrangler.toml wrangler.toml
 # edit the wrangler.toml with your cloudflare settings
 # to publish the production version
-wrangler publish
+npx wrangler publish
 # to publish the dev version which will give you a route (you can also use this for production for the purposes of this demo )
-wrangler publish -e env
+npx wrangler publish -e env
 # copy the route to put in the .env file of the SvelteKit project clone below.
 
 # If you're installing everything in the same toplevel directory - return to that directory
@@ -165,7 +165,7 @@ npm install
 
 # To install the dev KV connector
 cd worker/dev-kv-connector
-wrangler publish
+npx wrangler publish
 # copy the published route
 
 # edit the .env file and change VITE_KV and VITE_DOCRYPT vars to point to the respective routes from above (include https:// at the start)
