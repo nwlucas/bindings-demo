@@ -1,0 +1,10 @@
+name = "dev-kv-connector"
+main = "dev-kv-connector.js"
+compatibility_date = "2022-05-29"
+
+[vars]
+ACCESS_KEY = "yoursecrect" 
+
+kv_namespaces = [
+  { binding = "KV", id = "dev-kv" }
+]
